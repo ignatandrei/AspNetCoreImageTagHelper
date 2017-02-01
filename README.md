@@ -7,7 +7,9 @@ See https://en.wikipedia.org/wiki/Data_URI_scheme  for more details.
 
 Instructions for AspNetCore:
 
-In the _ViewImports @addTagHelper *, AspNetCore.Mvc.ImageBase64 
+In the _ViewImports.cshtml  put
+
+@addTagHelper *, AspNetCore.Mvc.ImageBase64 
 
 In the Razor page just put
 

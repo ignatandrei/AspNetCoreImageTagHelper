@@ -1,22 +1,24 @@
 ﻿{
   "description": "Image Base64 rendering Tag helper. Put img asp-render-base64='true' and in the _ViewImports @addTagHelper *, AspNetCore.Mvc.ImageBase64",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "authors": [ "Andrei Ignat" ],
-  "copyright": "MS-PL",
+  "copyright": "MIT",
   "title": "AspNetCore.Mvc.TagHelpers.Extensions",
   "packOptions": {
     "repository": {
       "type": "git",
       "url": "git://github.com/ignatandrei/"
     },
-    "summary": "First Release for img asp-render-base64='true'. See http://msprogrammer.serviciipeweb.ro/  for more details.In the _ViewImports @addTagHelper *, AspNetCore.Mvc.ImageBase64 ",
-    "releaseNotes": "First Release for img src='' asp-render-base64='true'. See http://msprogrammer.serviciipeweb.ro/  ",
+    "summary": "First Release for render base 64 images directly in browser .Use @addTagHelper *, AspNetCore.Mvc.ImageBase64 and  &lt;img asp-render-base64='true'. See https://github.com/ignatandrei/AspNetCoreImageTagHelper  for more details. ",
+    "releaseNotes": "First Release for render base 64 images directly in browser .Use @addTagHelper *, AspNetCore.Mvc.ImageBase64 and  &lt;img asp-render-base64='true'. See https://github.com/ignatandrei/AspNetCoreImageTagHelper  for more details.  ",
     "tags": [
       "aspnetcore",
       "aspnetcoremvc",
       "taghelper",
       "taghelpers",
-      "base64"
+      "base64",
+      "image base64",
+      "data uri scheme"
     ]
   },
   "buildOptions": {
