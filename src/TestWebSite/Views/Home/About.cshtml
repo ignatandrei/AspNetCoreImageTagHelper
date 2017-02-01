@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "About";
+}
+<h2>@ViewData["Title"].</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>
+    Image Base 64
+    <img src='~/images/eu.png' asp-render-base64='true' />
+</p>
+<p>
+    Image without Base 64
+    <img src="~/images/eu.png" />
+</p>
