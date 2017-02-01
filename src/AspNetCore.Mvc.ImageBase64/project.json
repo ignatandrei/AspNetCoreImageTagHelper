@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "authors": [ "Andrei Ignat" ],
   "copyright": "MIT",
+  "projectUrl": "https://github.com/ignatandrei/AspNetCoreImageTagHelper",
   "title": "AspNetCore.Mvc.TagHelpers.Extensions",
   "packOptions": {
     "repository": {
@@ -20,6 +21,7 @@
       "image base64",
       "data uri scheme"
     ]
+
   },
   "buildOptions": {
     "warningsAsErrors": true,

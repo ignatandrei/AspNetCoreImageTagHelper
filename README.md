@@ -14,3 +14,11 @@ In the _ViewImports.cshtml  put
 In the Razor page just put
 
  &lt;img src='~/ relative path to the image ' asp-render-base64='true' /&gt;
+
+ NuGet Package at https://www.nuget.org/packages/AspNetCore.Mvc.ImageBase64/ 
+ 
+ ( to generate the nuget package run\
+
+ dotnet pack -c Release
+ 
+ in the folder )
