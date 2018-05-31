@@ -69,12 +69,6 @@ namespace AspNetCore.Mvc.ImageBase64
                 resolvedPath = path.Substring(0, queryStringOrFragmentStartIndex);
             }
 
-            if (Uri.TryCreate(resolvedPath, UriKind.Absolute, out Uri uri) && !uri.IsFile)
-            {
-                // Don't append version if the path is absolute.
-                return path;
-            }
-
             if (!_cache.TryGetValue(path, out string value))
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions();
@@ -102,7 +96,7 @@ namespace AspNetCore.Mvc.ImageBase64
                     if (existsFileOnInternet)
                     {
                         var image = Convert.ToBase64String(bytes);
-                        value = string.Format("{0}{1}", RetrieveBase64Prefix(path), GetContentsForFile(fileInfo));
+                        value = string.Format("{0}{1}", RetrieveBase64Prefix(path), image);
                     }
                     else
                     {
