@@ -90,8 +90,7 @@ namespace AspNetCore.Mvc.ImageBase64
                     fileInfo = _fileProvider.GetFileInfo(requestPathBaseRelativePath);
                 }
 
-                // todo : remove this !
-                if (!fileInfo.Exists)
+                if (fileInfo.Exists)
                 {
                     value = string.Format("{0}{1}", RetrieveBase64Prefix(fileInfo.Name), GetContentsForFile(fileInfo));
                 }
