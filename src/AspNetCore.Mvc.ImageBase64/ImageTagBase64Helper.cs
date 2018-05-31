@@ -49,13 +49,7 @@ namespace AspNetCore.Mvc.ImageBase64
         }
 
         /// <inheritdoc />
-        public override int Order
-        {
-            get
-            {
-                return -1000;
-            }
-        }
+        public override int Order => -1000;
 
         /// <summary>
         /// Source of the image.

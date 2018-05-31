@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Buffers.Text;
 using System.IO;
+using System.Net;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
@@ -44,7 +46,6 @@ namespace AspNetCore.Mvc.ImageBase64
             _requestPathBase = requestPathBase;
         }
 
-
         /// <summary>
         /// Adds version query parameter to the specified file path.
         /// </summary>
@@ -68,15 +69,13 @@ namespace AspNetCore.Mvc.ImageBase64
                 resolvedPath = path.Substring(0, queryStringOrFragmentStartIndex);
             }
 
-            Uri uri;
-            if (Uri.TryCreate(resolvedPath, UriKind.Absolute, out uri) && !uri.IsFile)
+            if (Uri.TryCreate(resolvedPath, UriKind.Absolute, out Uri uri) && !uri.IsFile)
             {
                 // Don't append version if the path is absolute.
                 return path;
             }
 
-            string value;
-            if (!_cache.TryGetValue(path, out value))
+            if (!_cache.TryGetValue(path, out string value))
             {
                 var cacheEntryOptions = new MemoryCacheEntryOptions();
                 cacheEntryOptions.AddExpirationToken(_fileProvider.Watch(resolvedPath));
@@ -91,25 +90,62 @@ namespace AspNetCore.Mvc.ImageBase64
                     fileInfo = _fileProvider.GetFileInfo(requestPathBaseRelativePath);
                 }
 
-                if (fileInfo.Exists)
+                // todo : remove this !
+                if (!fileInfo.Exists)
                 {
-                    value = string.Format("{0}{1}", RetrieveBase64Prefix(fileInfo), GetContentsForFile(fileInfo));
+                    value = string.Format("{0}{1}", RetrieveBase64Prefix(fileInfo.Name), GetContentsForFile(fileInfo));
                 }
                 else
                 {
-                    // if the file is not in the current server.
-                    value = path;
+                    // if the file is not in the current server. try to get from internet
+                    var bytes = TryRetrieveFileFromInternet(path, out bool existsFileOnInternet);
+
+                    if (existsFileOnInternet)
+                    {
+                        var image = Convert.ToBase64String(bytes);
+                        value = string.Format("{0}{1}", RetrieveBase64Prefix(path), GetContentsForFile(fileInfo));
+                    }
+                    else
+                    {
+                        value = path;
+                    }
                 }
 
-                value = _cache.Set<string>(path, value, cacheEntryOptions);
+                value = _cache.Set(path, value, cacheEntryOptions);
             }
 
             return value;
         }
 
+        private static byte[] TryRetrieveFileFromInternet(string path, out bool existsFileOnInternet)
+        {
+            existsFileOnInternet = false;
+
+            // try to retrieve the file from internet 
+            try
+            {
+                using (var webClient = new WebClient())
+                {
+                    byte[] data = webClient.DownloadData(path);
+                    existsFileOnInternet = true;
+
+                    return data;
+                }
+            }
+            // the path is not a valid url
+            catch (ArgumentException)
+            {
+                return null;
+            }
+            // the path is not a valid file on internet
+            catch (WebException)
+            {
+                return null;
+            }
+        }
+
         private static string GetContentsForFile(IFileInfo fileInfo)
         {
-
             var numberBytes = fileInfo.Length;
             int iNumberBytes = (int)numberBytes;
             var contentFile = new byte[numberBytes];
@@ -121,13 +157,13 @@ namespace AspNetCore.Mvc.ImageBase64
             }
 
         }
-        private static string RetrieveBase64Prefix(IFileInfo fileInfo)
-        {
 
-            string extension = Path.GetExtension(fileInfo.Name);
+        private static string RetrieveBase64Prefix(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
             if (!extension.StartsWith("."))
             {
-                throw new NotSupportedException(fileInfo.Name);
+                throw new NotSupportedException(fileName);
             }
             extension = extension.Substring(1).ToLowerInvariant();//remove .
 
