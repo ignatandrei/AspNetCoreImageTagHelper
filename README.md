@@ -1,5 +1,7 @@
 # AspNetCoreImageTagHelper
 
+[![Build status](https://ci.appveyor.com/api/projects/status/pkt3xn2wquk1duhd?svg=true)](https://ci.appveyor.com/project/davidrevoledo/aspnetcoreimagetaghelper)
+
 
 First Release for rendering base 64 images in ASP.NET Core.
 
