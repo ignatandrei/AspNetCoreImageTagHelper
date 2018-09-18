@@ -1,6 +1,8 @@
 # AspNetCoreImageTagHelper
 
 [![Build status](https://ci.appveyor.com/api/projects/status/pkt3xn2wquk1duhd?svg=true)](https://ci.appveyor.com/project/davidrevoledo/aspnetcoreimagetaghelper)
+![NuGet](https://img.shields.io/nuget/dt/AspNetCore.Mvc.ImageBase64.svg)
+![NuGet](https://img.shields.io/nuget/v/AspNetCore.Mvc.ImageBase64.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
